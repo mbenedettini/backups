@@ -1,0 +1,11 @@
+docker run --name restore -p 5432:5432 -e POSTGRES_PASSWORD="" -e POSTGRES_USER=restore -d postgres:9.5
+
+#psql -h 127.0.0.1 -U restore restore
+
+sleep 5
+pg_restore -U restore -h 127.0.0.1 -d restore -O -x -Fc sega/tramitar-3.pg
+
+psql -h 127.0.0.1 -U restore restore < backups/sizes.sql > sizes.log
+
+docker kill restore
+docker rm restore
