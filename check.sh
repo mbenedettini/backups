@@ -17,7 +17,7 @@ sleep 5
 
 set +e
 
-python3.6 $HOME/backups/check.py $HOME/references/${db_name}.log
+python3 $HOME/backups/check.py $HOME/references/${db_name}.log
 db_check_status=$?
 
 docker kill restore
