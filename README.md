@@ -1,5 +1,12 @@
 ## Backups check
 
+### What is this?
+
+A set of tools to check PostgreSQL dumps stored into a [restic repository](https://restic.net/).
+
+Each dump to be checked needs a reference of table sizes against which the last dump will be checked. If current table
+sizes are equal or greater the dump is considered to be okay.
+
 ### USAGE
 
 Clone this repo in the home directory of some user already added to `docker` group
