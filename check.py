@@ -21,7 +21,7 @@ for l in lines:
 print(reference_sizes)
 
 import psycopg2
-conn = psycopg2.connect("dbname=restore user=restore host=127.0.0.1")
+conn = psycopg2.connect("dbname=restore user=restore host=127.0.0.1 port=5433")
 cur = conn.cursor()
 query = """SELECT nspname || '.' || relname AS "relation",
     pg_total_relation_size(C.oid) AS "total_size"
@@ -37,11 +37,21 @@ cur.execute(query)
 actual_sizes = cur.fetchall()
 
 all_good = True
+
+if len(actual_sizes) == 0:
+    all_good = False
+
 for s in actual_sizes:
-    reference_size = reference_sizes[s[0]]
-    if not s[1] >= reference_size:
+    name = s[0]
+    if name in reference_sizes:
+        reference_size = reference_sizes[name]
+        if not s[1] >= reference_size:
+            all_good = False
+            msg = f"WRONG SIZE FOR {name}"
+            print(msg)
+    else:
         all_good = False
-        print(f"WRONG SIZE FOR {s[0]}")
+        print(f"NOT FOUND {name}")
 
 if (all_good):
     sys.exit(0)
