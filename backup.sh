@@ -15,4 +15,4 @@ ls -lh $DIR | sed -re 's/^[^ ]* //'
 /usr/local/bin/restic backup $DIR
 /usr/local/bin/restic backup /storage/irt-extranet/storage/reports
 
-/usr/local/bin/restic forget --keep-daily 14 --keep-weekly 8 --group-by paths --prune
+/usr/local/bin/restic forget --keep-daily 28 --keep-weekly 8 --group-by paths --prune
