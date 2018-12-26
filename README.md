@@ -2,7 +2,7 @@
 
 ### What is this?
 
-A set of tools to check PostgreSQL dumps stored into a [[https://restic.net/|Restic]] repository.
+A set of tools to check PostgreSQL dumps stored into a [repository](https://restic.net/).
 
 Each dump to be checked needs a reference of table sizes against which the last dump will be checked. If current table
 sizes are equal or greater the dump is considered to be okay.
