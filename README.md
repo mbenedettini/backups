@@ -4,6 +4,8 @@
 
 Clone this repo in the home directory of some user already added to `docker` group
 
+Requires Python >= 3.6. Also, `pip3 install psycopg2`
+
 In the home directory, create a .env file containing the following env variables, required in order to access the restic repo: 
 `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, `RESTIC_PASSWORD`, `RESTIC_REPOSITORY`
 
