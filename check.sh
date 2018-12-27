@@ -1,5 +1,4 @@
 #!/bin/bash
-set -e
 . $HOME/.env
 
 db_name=$1
@@ -8,6 +7,8 @@ dump_file=$2
 # just in case
 docker kill restore
 docker rm restore
+
+set -e
 
 echo "Restoring db $db_name from file $dump_file"
 
