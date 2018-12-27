@@ -43,11 +43,12 @@ if len(actual_sizes) == 0:
 
 for s in actual_sizes:
     name = s[0]
+    actual_size = s[1]
     if name in reference_sizes:
         reference_size = reference_sizes[name]
-        if not s[1] >= reference_size:
+        if not actual_size >= reference_size:
             all_good = False
-            msg = f"WRONG SIZE FOR {name}"
+            msg = f"WRONG SIZE FOR {name} (expected: {reference_size}, actual: {actual_size})"
             print(msg)
     else:
         all_good = False
