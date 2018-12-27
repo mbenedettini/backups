@@ -12,7 +12,7 @@ for l in lines:
     name = ""
     try:
         size = int(fields[2])
-        name = fields[0]
+        name = fields[1]
     except:
         pass
 
