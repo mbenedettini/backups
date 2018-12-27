@@ -23,16 +23,33 @@ print(reference_sizes)
 import psycopg2
 conn = psycopg2.connect("dbname=restore user=restore host=127.0.0.1 port=5433")
 cur = conn.cursor()
-query = """SELECT nspname || '.' || relname AS "relation",
-    pg_total_relation_size(C.oid) AS "total_size"
-  FROM pg_class C
-  LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
-  WHERE nspname NOT IN ('pg_catalog', 'information_schema')
-    AND C.relkind <> 'i'
-    AND nspname !~ '^pg_toast'
-  ORDER BY pg_total_relation_size(C.oid) DESC, nspname ASC
-  LIMIT 10
-"""
+
+# Add count rows function
+cur.execute("""create or replace function 
+count_rows(schema text, tablename text) returns integer
+as
+$body$
+declare
+  result integer;
+  query varchar;
+begin
+  query := 'SELECT count(1) FROM ' || schema || '.' || tablename;
+  execute query into result;
+  return result;
+end;
+$body$
+language plpgsql;""")
+
+# query count
+query = """select 
+  table_schema,
+  table_name, 
+  count_rows(table_schema, table_name)
+from information_schema.tables
+where 
+  table_schema not in ('pg_catalog', 'information_schema') 
+  and table_type='BASE TABLE'
+order by 3 desc limit 10"""
 cur.execute(query)
 actual_sizes = cur.fetchall()
 
@@ -42,8 +59,8 @@ if len(actual_sizes) == 0:
     all_good = False
 
 for s in actual_sizes:
-    name = s[0]
-    actual_size = s[1]
+    name = s[1]
+    actual_size = s[2]
     if name in reference_sizes:
         reference_size = reference_sizes[name]
         if not actual_size >= reference_size:
