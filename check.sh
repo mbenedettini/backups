@@ -5,6 +5,10 @@ set -e
 db_name=$1
 dump_file=$2
 
+# just in case
+docker kill restore
+docker rm restore
+
 echo "Restoring db $db_name from file $dump_file"
 
 docker run --name restore -p 5433:5432 -e POSTGRES_PASSWORD="" -e POSTGRES_USER=restore -d postgres:9.5
