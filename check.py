@@ -9,14 +9,16 @@ reference_sizes = {}
 for l in lines:
     fields = [f.strip() for f in l.split('|')]
     size = 0
+    name = ""
     try:
-        size = int(fields[1])
+        size = int(fields[2])
+        name = fields[0]
     except:
         pass
 
-    is_data = len(fields) == 2 and size > 0
+    is_data = len(fields) == 3 and size > 0
     if is_data:
-        reference_sizes[fields[0]] = size
+        reference_sizes[name] = size
 
 print(reference_sizes)
 
