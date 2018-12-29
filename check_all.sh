@@ -1,10 +1,12 @@
 #!/bin/bash
 
+RESTORE_DIR=/tmp/latest
+
 set -e
 . $HOME/.env
 
-rm -rf /tmp/latest
-restic restore --path $DUMPS_DIR -t /tmp/latest latest
+rm -rf $RESTORE_DIR
+restic restore --path $DUMPS_DIR -t $RESTORE_DIR latest
 
 set +e
 
