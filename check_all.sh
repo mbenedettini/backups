@@ -6,7 +6,7 @@ set -e
 . $HOME/.env
 
 rm -rf $RESTORE_DIR
-restic restore --path $DUMPS_DIR -t $RESTORE_DIR latest
+/usr/local/bin/restic restore --path $DUMPS_DIR -t $RESTORE_DIR latest
 
 set +e
 
