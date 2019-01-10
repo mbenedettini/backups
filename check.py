@@ -51,7 +51,7 @@ from information_schema.tables
 where 
   table_schema not in ('pg_catalog', 'information_schema') 
   and table_type='BASE TABLE'
-  and table_name != 'accesstoken'
+  and table_name not like '%accesstoken%'
 order by 3 desc limit 10"""
 cur.execute(query)
 actual_sizes = cur.fetchall()
